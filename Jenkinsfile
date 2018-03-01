@@ -49,7 +49,7 @@ node('linux') {
 	}
 }
 
-def test_image = "quay.io/deisci/controller-sdk-go-dev:${git_commit.take(7)}"
+def test_image = "quay.io/kingdonb/controller-sdk-go-dev:${git_commit.take(7)}"
 
 node('linux') {
 		stage 'Build and push test container'
@@ -95,7 +95,7 @@ node('linux') {
 stage 'Build and Upload CLI built with SDK'
 
 def gcs_bucket = "gs://workflow-cli-pr"
-def wcli_image = 'quay.io/deisci/workflow-cli-dev:latest'
+def wcli_image = 'quay.io/kingdonb/workflow-cli-dev:latest'
 
 
 def upload_artifacts = { String dist_dir ->
@@ -146,7 +146,7 @@ node('linux') {
 	replacement += "  version: ${git_commit}"
 
 	def build_script = "sh -c 'perl -i -0pe \"s/${pattern}/${replacement}/\" glide.yaml "
-	build_script += "&& rm -rf glide.lock vendor/github.com/deis/controller-sdk-go "
+	build_script += "&& rm -rf glide.lock vendor/github.com/teamhephy/controller-sdk-go "
 	build_script += "&& glide install "
 	build_script += "&& make build-revision'"
 	sh "docker pull ${wcli_image}"
